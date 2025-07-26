@@ -57,6 +57,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event: Event):
     if event.message.type == "text":
+        json_data = json.loads(body)
         text = json_data['events'][0]['message']['text']
             if text == '雷達回波圖' or text == '雷達回波':
                 line_bot_api.push_message(user_id, TextSendMessage(text='馬上找給你！抓取資料中....'))   # 一開始先發送訊息

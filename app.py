@@ -57,16 +57,27 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event: Event):
     if event.message.type == "text":
-        user_message = event.message.text  # 使用者的訊息
-        app.logger.info(f"收到的訊息: {user_message}")
+        text = json_data['events'][0]['message']['text']
+            if text == '雷達回波圖' or text == '雷達回波':
+                line_bot_api.push_message(user_id, TextSendMessage(text='馬上找給你！抓取資料中....'))   # 一開始先發送訊息
+                img_url = f'https://cwaopendata.s3.ap-northeast-1.amazonaws.com/Observation/O-A0058-001.png?{time.time_ns()}'
+                img_message = ImageSendMessage(original_content_url=img_url, preview_image_url=img_url)
+                line_bot_api.reply_message(event.reply_token, img_message)  # 回傳訊息
+            else:          
+                text_message = TextSendMessage(text=text)
+                reply_text = ("你說了：" + user_message)
+                line_bot_api.reply_message(event.reply_token,reply_text)
 
-        # 使用 GPT 生成回應
-        reply_text = ("你說了：" + user_message)
+        # user_message = event.message.text  # 使用者的訊息
+        # app.logger.info(f"收到的訊息: {user_message}")
 
-        line_bot_api.reply_message(
-            event.reply_token,
-            TextSendMessage(text=reply_text)
-        )
+        # # 使用 GPT 生成回應
+        # reply_text = ("你說了：" + user_message)
+
+        # line_bot_api.reply_message(
+        #     event.reply_token,
+        #     TextSendMessage(text=reply_text)
+        # )
 # 應用程序入口點
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000)

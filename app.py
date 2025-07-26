@@ -57,9 +57,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event: Event):
     if event.message.type == "text":
-        json_data = json.loads(body)
-        text = json_data['events'][0]['message']['text']
-            if text == '雷達回波圖' or text == '雷達回波':
+            if event.message.text == '雷達回波圖':
                 line_bot_api.push_message(user_id, TextSendMessage(text='馬上找給你！抓取資料中....'))   # 一開始先發送訊息
                 img_url = f'https://cwaopendata.s3.ap-northeast-1.amazonaws.com/Observation/O-A0058-001.png?{time.time_ns()}'
                 img_message = ImageSendMessage(original_content_url=img_url, preview_image_url=img_url)

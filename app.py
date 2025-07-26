@@ -63,10 +63,14 @@ def handle_message(event: Event):
                 img_message = ImageSendMessage(original_content_url=img_url, preview_image_url=img_url)
                 line_bot_api.reply_message(event.reply_token, img_message)  # 回傳訊息
             else:          
-                text_message = TextSendMessage(text=event.message.text)
-                reply_text = ("你說了：" + event.message.text)
-                line_bot_api.reply_message(event.reply_token,reply_text)
-
+                user_message = event.message.text  # 使用者的訊息
+                app.logger.info(f"收到的訊息: {user_message}")
+                # 使用 GPT 生成回應
+                 reply_text = ("你說了：" + user_message)
+                line_bot_api.reply_message(
+                 event.reply_token,
+                TextSendMessage(text=reply_text)
+                )
         # user_message = event.message.text  # 使用者的訊息
         # app.logger.info(f"收到的訊息: {user_message}")
 

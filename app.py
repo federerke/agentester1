@@ -66,9 +66,9 @@ def handle_message(event: Event):
                 user_message = event.message.text  # 使用者的訊息
                 app.logger.info(f"收到的訊息: {user_message}")
                 # 使用 GPT 生成回應
-                 reply_text = ("你說了：" + user_message)
+                reply_text = ("你說了：" + user_message)
                 line_bot_api.reply_message(
-                 event.reply_token,
+                event.reply_token,
                 TextSendMessage(text=reply_text)
                 )
         # user_message = event.message.text  # 使用者的訊息

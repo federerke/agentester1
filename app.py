@@ -63,8 +63,8 @@ def handle_message(event: Event):
                 img_message = ImageSendMessage(original_content_url=img_url, preview_image_url=img_url)
                 line_bot_api.reply_message(event.reply_token, img_message)  # 回傳訊息
             else:          
-                text_message = TextSendMessage(text=text)
-                reply_text = ("你說了：" + user_message)
+                text_message = TextSendMessage(text=event.message.text)
+                reply_text = ("你說了：" + event.message.text)
                 line_bot_api.reply_message(event.reply_token,reply_text)
 
         # user_message = event.message.text  # 使用者的訊息
